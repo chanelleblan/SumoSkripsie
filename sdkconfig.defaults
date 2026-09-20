@@ -1,0 +1,15 @@
+# Applied when sdkconfig.esp32doit-devkit-v1 is regenerated from scratch.
+# Rationale for each of these is in docs/HARDWARE.md section 7.
+
+# The DOIT DevKit v1 has 4 MB, not the 2 MB the stock config assumes.
+CONFIG_ESPTOOLPY_FLASHSIZE_4MB=y
+CONFIG_ESPTOOLPY_FLASHSIZE="4MB"
+
+# Raw telemetry partition - see partitions.csv.
+CONFIG_PARTITION_TABLE_CUSTOM=y
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"
+
+# 1 ms tick. At the stock 100 Hz, pdMS_TO_TICKS(2) rounds to zero ticks, which
+# turns the VL53L0X busy-waits into bare yields and makes a 104 Hz control loop
+# impossible to schedule accurately.
+CONFIG_FREERTOS_HZ=1000

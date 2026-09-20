@@ -1,0 +1,17 @@
+# Custom partition table for SumoSkripsie.
+#
+# The DOIT DevKit v1 carries a 4 MB flash (0x400000). The stock single-app 2 MB
+# layout wastes half of it and leaves no room for telemetry, so:
+#
+#   factory    1.5 MB  - headroom for the WiFi stack if it is ever added
+#   telemetry  2.4 MB  - raw run logs, no filesystem (see src/telemetry.c)
+#
+# Set CONFIG_PARTITION_TABLE_CUSTOM=y and CONFIG_ESPTOOLPY_FLASHSIZE="4MB".
+# tools/telemetry.py parses this file to locate the telemetry partition, so keep
+# the column order intact if you edit it.
+#
+# Name,     Type, SubType, Offset,   Size
+nvs,        data, nvs,     0x9000,   0x6000
+phy_init,   data, phy,     0xF000,   0x1000
+factory,    app,  factory, 0x10000,  0x180000
+telemetry,  data, 0x40,    0x190000, 0x260000
